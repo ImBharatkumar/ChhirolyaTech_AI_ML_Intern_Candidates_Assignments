@@ -48,9 +48,9 @@ pip install -r requirements.txt
 Set up environment variables:
 Create .env file #for storing senstive/secret keys#
 
-## Add your Jina AI API key
+## Add your Mistral AI API key
 
-echo "JINA_API_KEY=your_api_key_here" >> .env
+echo "MISTRAL_API_KEY=your_api_key_here" >> .env
 📦 Dependencies
 plaintextCopystreamlit
 streamlit-chat

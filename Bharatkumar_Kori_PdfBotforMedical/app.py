@@ -9,10 +9,10 @@ from langchain.chains.question_answering import load_qa_chain
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import JinaEmbeddings
 from langchain_core.prompts import PromptTemplate
 from langchain_ollama.llms import OllamaLLM
 from typing import List
+from langchain_mistralai import MistralAIEmbeddings
 
 
 # Initialize the model
@@ -32,7 +32,7 @@ PROMPT = PromptTemplate(
 
 # Load environment variables
 load_dotenv()
-jina_api_key = os.getenv("JINA_API_KEY")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
 def process_pdf(pdf_file) -> List[dict]:
     """Process PDF and return list of documents with metadata"""
@@ -72,10 +72,7 @@ def get_ans(query: str, docs: List[dict]):
                 })
         
         # Create embeddings
-        embeddings = JinaEmbeddings(
-            jina_api_key=jina_api_key,
-            model_name="jina-embeddings-v3"
-        )
+        embeddings = MistralAIEmbeddings(api_key=MISTRAL_API_KEY)
         
         # Create vector store
         docsearch = FAISS.from_texts(
@@ -132,7 +129,7 @@ try:
     def clear_history():
         st.session_state['generated'] = []
         st.session_state['past'] = []
-        st.session_state['documents']= []
+
     
     if uploaded:
         # Process PDF only once and store in session state
